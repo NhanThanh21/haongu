@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiên nhiên Việt Nam</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Times New Roman", Times, serif;
+}
+
+body{background:#fff;color:#222}
+
+.header{
+  position:fixed;
+  top:0;left:0;width:100%;
+  z-index:1000;
+}
+.top-bar{
+  height:60px;
+  display:flex;
+  align-items:center;
+  padding:10px 30px;
+}
+.logo img{height:150px}
+.menu-bar{
+  height:52px;
+  display:flex;
+  align-items:center;
+  gap:30px;
+  padding:0 30px;
+}
+.menu-bar a{
+  color:#fff;
+  text-decoration:none;
+  font-size:20px;
+  position:relative;
+}
+.menu-bar a.active::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:-6px;
+  width:100%;height:2px;
+  background:#fff;
+}
+.header.scrolled .top-bar,
+.header.scrolled .menu-bar{
+  background:#0b3c5d;
+}
+
+/* ================= HERO ================= */
+.hero{
+  height:520px;
+  padding-top:112px;
+  background:url("uploads/nenlogo.jpg") center/cover no-repeat;
+  position:relative;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+}
+.hero-content{
+  position:relative;
+  z-index:1;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+}
+.hero-title{font-size:42px;margin-bottom:22px}
+.search-tool input{
+  width:520px;
+  max-width:90vw;
+  padding:16px 22px;
+  font-size:17px;
+  border-radius:40px;
+  border:none;
+}
+
+
+.middle-bg{
+  background:url("uploads/nengiua.png") center/cover no-repeat;
+  min-height:100vh;
+  padding:50px 0 140px;
+}
+main{max-width:1200px;margin:auto;padding:0 16px}
+.page{display:none}
+.page.active{display:block}
+.section-title{
+  font-size:32px;
+  color:#961717;
+  margin-bottom:30px;
+}
+
+
+.post{
+  background:rgba(255,255,255,0.95);
+  border-radius:14px;
+  padding:32px;
+  margin-bottom:30px;
+  display:flex;
+  gap:22px;
+  cursor:pointer;
+}
+.post:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.15);
+}
+.post-content{flex:1}
+.post-title{font-size:22px;font-weight:600;margin-bottom:10px}
+.post-desc{font-size:20px;line-height:1.6}
+
+.post-images{
+  width:380px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.post-images img{
+  width:100%;
+  height:auto;         
+  display:block;
+  border-radius:12px;
+}
+
+.news-detail{
+  background:#fff;
+  padding:40px;
+  border-radius:16px;
+}
+
+
+.news-images{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+  margin:20px 0;
+}
+.news-images img{
+  width:100%;
+  height:auto;         
+  display:block;
+  border-radius:12px;
+}
+
+.about-box{
+  background:#fff;
+  padding:32px;
+  border-radius:16px;
+  margin-bottom:30px;
+}
+.about-text{line-height:1.7}
+.member-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:24px;
+  margin-top:20px;
+}
+.member-card{text-align:center}
+.member-avatar{
+  width:100px;height:100px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #0b3c5d;
+}
+
+footer{
+  position:fixed;
+  bottom:0;left:0;width:100%;
+  background:#0b3c5d;
+  color:#fff;
+  text-align:center;
+  padding:16px 0;
+}
+
+@media(max-width:768px){
+  .post{flex-direction:column}
+  .post-images{width:100%}
+  .hero-title{font-size:30px}
+}
+
+.image-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:3000;
+}
+
+.image-overlay.active{
+  display:flex;
+}
+
+.image-overlay img{
+  max-width:95vw;
+  max-height:95vh;
+  object-fit:contain;
+  border-radius:12px;
+}
+
+.image-overlay span{
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:36px;
+  color:#fff;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header" id="header">
+  <div class="top-bar">
+    <div class="logo"><img src="uploads/logo1.png"></div>
+  </div>
+  <div class="menu-bar">
+    <a href="#" class="active" onclick="showPage('home',this)">Trang chủ</a>
+    <a href="#" onclick="showPage('news',this)">Tin tức</a>
+    <a href="#" onclick="showPage('about',this)">Thông tin</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-title">Hình ảnh thiên nhiên Ở Quê Em</div>
+    <div class="search-tool">
+      <input type="text" placeholder="🔍 Tìm bài viết..." onkeyup="searchPost(this.value)">
+    </div>
+  </div>
+</section>
+
+<div class="middle-bg">
+<main>
+
+<section id="home" class="page active">
+  <div class="section-title">Bài viết nổi bật</div>
+
+  <div class="post" onclick="openPost(0)">
+    <div class="post-content">
+      <div class="post-title">Bầu Trời Hoàng Hôn</div>
+      <div class="post-desc">Bầu trời hoàng hôn khoác lên mình sắc cam hồng dịu nhẹ, như một bức tranh được vẽ bằng ánh sáng cuối ngày. Những đám mây trôi lững lờ, phản chiếu ánh nắng đang dần tắt, tạo nên vẻ đẹp vừa rực rỡ vừa yên bình. Mặt trời chậm rãi khuất sau đường chân trời, để lại khoảng không gian tĩnh lặng đầy cảm xúc. Trong khoảnh khắc ấy, bầu trời như thì thầm một lời tạm biệt êm đềm của ngày dài.</div>
+    </div>
+    <div class="post-images">
+      <img src="uploads/hoanghon2.jpg">
+      <img src="uploads/hoanghon1.jpg">
+      <img src="uploads/hoanghon3.jpg">
+      <img src="uploads/hoanghon4.jpg">
+      <img src="uploads/hoanghon5.jpg">
+    </div>
+  </div>
+
+  <div class="post" onclick="openPost(1)">
+    <div class="post-content">
+      <div class="post-title">Thiên Nhiên Địa Phương</div>
+      <div class="post-desc">Rừng cây gắn liền với khu di tích Cái Ngang vừa là không gian thiên nhiên xanh mát, vừa là lớp nền lịch sử trầm lắng của vùng đất. Rừng che chở, tôn lên giá trị di tích và giúp lưu giữ những dấu ấn của quá khứ. Sự hòa quyện giữa rừng cây và di tích tạo nên một nơi chốn thiêng liêng, giàu ý nghĩa văn hóa và lịch sử.</div>
+    </div>
+    <div class="post-images">
+      <img src="uploads/rung1.jpg">
+      <img src="uploads/rung2.jpg">
+      <img src="uploads/rung4.jpg">
+      <img src="uploads/rung5.jpg">
+    </div>
+  </div>
+
+
+  <div class="post" onclick="openPost(2)">
+    <div class="post-content">
+      <div class="post-title">Bầu Trời Đa Màu</div>
+      <div class="post-desc">Bầu trời hiện lên như được chia thành hai mảng rõ rệt: một bên sáng trong với sắc xanh nhạt và ánh nắng còn vương lại, bên kia trầm xuống với gam tím sẫm báo hiệu màn đêm đang đến. Ranh giới giữa sáng và tối hòa quyện mềm mại, tạo nên cảm giác chuyển giao nhẹ nhàng của thời gian. Sự đối lập ấy làm bầu trời trở nên sống động, vừa rực rỡ vừa sâu lắng, gợi lên vẻ đẹp rất riêng của khoảnh khắc giao thoa giữa ngày và đêm.</div>
+    </div>
+    <div class="post-images">
+      <img src="uploads/bautroisao.jpg">
+      <img src="uploads/troimay.jpg">
+      <img src="uploads/troichieu.jpg">
+    </div>
+  </div>
+
+
+  <div class="post" onclick="openPost(3)">
+    <div class="post-content">
+      <div class="post-title">Cây Cối Thiên Nhiên</div>
+      <div class="post-desc">Cây cối và thiên nhiên hòa quyện với nhau tạo nên một không gian sống đầy sức sống và cân bằng. Những tán cây vươn cao đón ánh nắng, lá xanh lay động theo gió như nhịp thở nhẹ nhàng của đất trời. Dưới gốc cây, thảm cỏ và đất ẩm giữ lại nguồn nước, nuôi dưỡng sự sống âm thầm nhưng bền bỉ. Thiên nhiên qua từng hàng cây không chỉ mang vẻ đẹp yên bình mà còn nhắc con người về mối liên kết sâu sắc giữa sự sống, thời gian và sự gìn giữ môi trường.</div>
+    </div>
+    <div class="post-images">
+      <img src="uploads/hoa1.jpg">
+      <img src="uploads/lacay.jpg">
+      <img src="uploads/lacay2.jpg">
+    </div>
+  </div>
+
+
+  <div class="post" onclick="openPost(4)">
+    <div class="post-content">
+      <div class="post-title">Trường Học Của Em</div>
+      <div class="post-desc">Trường cấp 3 của em là nơi gắn liền với những năm tháng thanh xuân đầy kỷ niệm và ước mơ. Mỗi buổi sáng, sân trường rộn ràng tiếng cười nói, tiếng trống vang lên báo hiệu một ngày học mới bắt đầu. Những dãy phòng học quen thuộc, hàng cây xanh mát và góc sân nơi bạn bè tụ tập trò chuyện đã trở thành hình ảnh thân thương khó quên. Không chỉ là nơi truyền đạt kiến thức, ngôi trường ấy còn dạy em cách trưởng thành, biết cố gắng, chia sẻ và nuôi dưỡng những hoài bão cho tương lai.</div>
+    </div>
+    <div class="post-images">
+      <img src="uploads/truong.jpg">
+      <img src="uploads/truong1.jpg">
+      <img src="uploads/truong2.jpg">
+      <img src="uploads/truong3.jpg">
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEWS ================= -->
+<section id="news" class="page">
+  <div class="section-title">Tin tức</div>
+  <div class="news-detail" id="newsDetail">
+    <i>Chọn bài viết để xem chi tiết</i>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="page">
+  <div class="section-title">Thông tin</div>
+
+  <div class="about-box">
+    <div class="post-title">Thông tin website</div>
+    <div class="about-text">
+      Website được xây dựng với chủ đề giới thiệu thiên nhiên và phong cảnh, nhằm mang đến cho người xem cái nhìn chân thực và sinh động về vẻ đẹp của thế giới tự nhiên. Tại đây, bạn sẽ khám phá những khung cảnh đa dạng như bầu trời, rừng cây, sông núi và các vùng đất giàu giá trị sinh thái, được thể hiện qua hình ảnh và nội dung chọn lọc. Không chỉ dừng lại ở việc ngắm nhìn, website còn truyền tải thông điệp về ý thức bảo vệ môi trường và trân trọng thiên nhiên. Thông qua mỗi bài viết, người xem có thể tìm thấy sự thư giãn, cảm hứng và kết nối sâu sắc hơn với vẻ đẹp bình dị nhưng đầy ý nghĩa của cảnh quan xung quanh chúng ta.
+    </div>
+  </div>
+
+  <div class="about-box">
+    <div class="post-title">Thành viên</div>
+    <div class="member-list">
+      <div class="member-card">
+        <img src="uploads/avatar1.jpg" class="member-avatar">
+        <div>Phạm Thành Nhân</div>
+      </div>
+      <div class="member-card">
+        <img src="uploads/avatar2.jpg" class="member-avatar">
+        <div>Nguyễn Hoàng Hảo</div>
+      </div>
+      <div class="member-card">
+        <img src="uploads/avatar3.jpg" class="member-avatar">
+        <div>Nguyễn Thị Thi Giang</div>
+      </div>
+      <div class="member-card">
+        <img src="uploads/avatar4.jpg" class="member-avatar">
+        <div>Phạm Quốc Anh</div>
+      </div>
+      <div class="member-card">
+        <img src="uploads/avatar5.jpg" class="member-avatar">
+        <div>Nguyễn Phụng Phương</div>
+      </div>
+      <div class="member-card">
+        <img src="uploads/avatar6.jpg" class="member-avatar">
+        <div>Huỳnh Gia Hạo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<footer>© 2026 Thiên nhiên Quê Em</footer>
+
+<script>
+const posts=[
+{
+ title:"Bầu Trời Hoàng Hôn",
+ short:"Bầu trời hoàng hôn khoác lên mình sắc cam hồng dịu nhẹ, như một bức tranh được vẽ bằng ánh sáng cuối ngày. Những đám mây trôi lững lờ, phản chiếu ánh nắng đang dần tắt, tạo nên vẻ đẹp vừa rực rỡ vừa yên bình. Mặt trời chậm rãi khuất sau đường chân trời, để lại khoảng không gian tĩnh lặng đầy cảm xúc. Trong khoảnh khắc ấy, bầu trời như thì thầm một lời tạm biệt êm đềm của ngày dài.",
+ full:"Bầu trời hoàng hôn không chỉ là sự chuyển giao giữa ngày và đêm mà còn là kết quả của hiện tượng tán xạ ánh sáng trong khí quyển Trái Đất. Khi Mặt Trời ở thấp gần đường chân trời, ánh sáng phải đi qua lớp khí quyển dày hơn, khiến các tia sáng có bước sóng ngắn như xanh và tím bị tán xạ mạnh, chỉ còn lại các gam màu đỏ, cam và hồng lan tỏa khắp bầu trời. Những đám mây lúc này đóng vai trò như tấm gương phản chiếu ánh sáng, làm màu sắc trở nên sâu và có chiều hơn. Chính sự kết hợp giữa khoa học tự nhiên và cảm xúc thị giác ấy khiến hoàng hôn luôn mang vẻ đẹp trầm lắng, gợi suy tư và dễ chạm đến tâm hồn con người.",
+ images:["uploads/hoanghon1.jpg","uploads/hoanghon2.jpg","uploads/hoanghon3.jpg","uploads/hoanghon4.jpg","uploads/hoanghon5.jpg"]
+},
+{
+ title:"Thiên Nhiên Địa Phương",
+ short:"Rừng cây gắn liền với khu di tích Cái Ngang vừa là không gian thiên nhiên xanh mát, vừa là lớp nền lịch sử trầm lắng của vùng đất. Rừng che chở, tôn lên giá trị di tích và giúp lưu giữ những dấu ấn của quá khứ. Sự hòa quyện giữa rừng cây và di tích tạo nên một nơi chốn thiêng liêng, giàu ý nghĩa văn hóa và lịch sử.",
+ full:"Rừng cây ấy gắn liền với khu di tích Cái Ngang như một phần không thể tách rời của không gian lịch sử và văn hóa nơi đây. Những hàng cây lâu năm không chỉ bao bọc, che chở cho di tích trước sự khắc nghiệt của thời gian mà còn lưu giữ dấu ấn của quá khứ, nơi từng chứng kiến bao biến động và câu chuyện của con người. Rừng tạo nên bầu không khí trầm mặc, linh thiêng, giúp người đến thăm cảm nhận rõ hơn giá trị lịch sử ẩn sau từng lối đi, từng nền đất cũ. Chính sự hòa quyện giữa thiên nhiên và di tích đã làm cho Cái Ngang không chỉ là một địa điểm tham quan, mà còn là nơi nhắc nhớ và kết nối các thế hệ với cội nguồn.",
+ images:["uploads/rung1.jpg","uploads/rung2.jpg","uploads/rung4.jpg","uploads/rung5.jpg"]
+},
+{
+ title:"Bầu Trời Đa Màu",
+ short:"Bầu trời hiện lên như được chia thành hai mảng rõ rệt: một bên sáng trong với sắc xanh nhạt và ánh nắng còn vương lại, bên kia trầm xuống với gam tím sẫm báo hiệu màn đêm đang đến. Ranh giới giữa sáng và tối hòa quyện mềm mại, tạo nên cảm giác chuyển giao nhẹ nhàng của thời gian. Sự đối lập ấy làm bầu trời trở nên sống động, vừa rực rỡ vừa sâu lắng, gợi lên vẻ đẹp rất riêng của khoảnh khắc giao thoa giữa ngày và đêm.",
+ full:"Bầu trời lúc ấy như được chia làm hai tấm tranh đối lập nhưng hài hòa. Một nửa vẫn còn sáng, mang màu xanh nhạt pha chút vàng ấm của ánh mặt trời cuối ngày, tạo cảm giác nhẹ nhàng và bình yên. Nửa còn lại dần chìm vào bóng tối, nhuộm sắc tím sẫm và xanh đậm, báo hiệu màn đêm đang chậm rãi buông xuống. Giữa hai mảng sáng – tối là sự chuyển giao mềm mại, nơi ánh sáng không mất đi đột ngột mà tan dần, khiến bầu trời trở nên sâu lắng và đầy cảm xúc, gợi lên cảm giác vừa luyến tiếc ban ngày, vừa chờ đợi sự tĩnh lặng của đêm.",
+ images:["uploads/rung1.jpg","uploads/rung2.jpg","uploads/rung4.jpg","uploads/rung5.jpg"]
+},
+{
+ title:"Cây Cối Thiên Nhiên",
+ short:"Cây cối và thiên nhiên hòa quyện với nhau tạo nên một không gian sống đầy sức sống và cân bằng. Những tán cây vươn cao đón ánh nắng, lá xanh lay động theo gió như nhịp thở nhẹ nhàng của đất trời. Dưới gốc cây, thảm cỏ và đất ẩm giữ lại nguồn nước, nuôi dưỡng sự sống âm thầm nhưng bền bỉ. Thiên nhiên qua từng hàng cây không chỉ mang vẻ đẹp yên bình mà còn nhắc con người về mối liên kết sâu sắc giữa sự sống, thời gian và sự gìn giữ môi trường.",
+ full:"Cây cối trong thiên nhiên không chỉ đơn thuần là những thân gỗ và tán lá mà là cả một hệ thống sống vận hành hài hòa theo quy luật tự nhiên. Mỗi chiếc lá vươn ra đón ánh sáng để quang hợp, tạo nên nguồn năng lượng nuôi dưỡng cây và góp phần duy trì bầu không khí trong lành cho muôn loài. Rễ cây âm thầm bám sâu vào lòng đất, giữ chặt lớp đất màu, ngăn xói mòn và tích trữ nước cho những mùa khô hạn. Khi đứng giữa không gian ấy, con người có thể cảm nhận rõ sự bền bỉ, nhịp nhàng của thiên nhiên – nơi cây cối vừa che chở, vừa nuôi dưỡng và kết nối mọi sự sống lại với nhau.",
+ images:["uploads/hoa1.jpg","uploads/lacay.jpg","uploads/lacay2.jpg"]
+},
+{
+ title:"Trường Học Của Em",
+ short:"Trường cấp 3 của em là nơi gắn liền với những năm tháng thanh xuân đầy kỷ niệm và ước mơ. Mỗi buổi sáng, sân trường rộn ràng tiếng cười nói, tiếng trống vang lên báo hiệu một ngày học mới bắt đầu. Những dãy phòng học quen thuộc, hàng cây xanh mát và góc sân nơi bạn bè tụ tập trò chuyện đã trở thành hình ảnh thân thương khó quên. Không chỉ là nơi truyền đạt kiến thức, ngôi trường ấy còn dạy em cách trưởng thành, biết cố gắng, chia sẻ và nuôi dưỡng những hoài bão cho tương lai.",
+ full:"Trường cấp 3 của em không chỉ là nơi học tập mà còn là không gian lưu giữ những năm tháng quan trọng nhất của tuổi học trò. Mỗi buổi sáng đến trường, em cảm nhận được không khí quen thuộc từ cổng trường, hàng cây xanh rợp bóng đến những dãy lớp học vang tiếng bước chân và tiếng trò chuyện rộn ràng. Trong lớp, thầy cô tận tình giảng dạy, không chỉ truyền đạt kiến thức mà còn dạy em cách sống, cách suy nghĩ và đối diện với thử thách. Ngoài giờ học, sân trường trở thành nơi gắn kết bạn bè qua những giờ ra chơi, hoạt động ngoại khóa và kỷ niệm khó quên. Ngôi trường ấy đã chứng kiến sự trưởng thành từng ngày của em, từ những bỡ ngỡ ban đầu đến lúc biết ước mơ, cố gắng và chuẩn bị cho chặng đường tương lai phía trước.",
+ images:["uploads/truong.jpg","uploads/truong1.jpg","uploads/truong2.jpg","uploads/truong3.jpg"]
+}
+];
+
+function openPost(i){
+  showPage('news',document.querySelectorAll('.menu-bar a')[1]);
+
+  let imgs='<div class="news-images">';
+  posts[i].images.forEach(img=>{
+    imgs+=`<img src="${img}" onclick="zoomImage(event,'${img}')">`;
+  });
+  imgs+='</div>';
+
+  document.getElementById("newsDetail").innerHTML=`
+    <h2>${posts[i].title}</h2>
+    <p>${posts[i].short}</p>
+    ${imgs}
+    <p>${posts[i].full}</p>
+  `;
+}
+
+
+function showPage(id,el){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".menu-bar a").forEach(a=>a.classList.remove("active"));
+ el.classList.add("active");
+}
+
+function searchPost(text){
+ text=text.toLowerCase();
+ document.querySelectorAll(".post").forEach(p=>{
+   p.style.display=p.innerText.toLowerCase().includes(text)?"flex":"none";
+ });
+}
+
+window.addEventListener("scroll",()=>{
+ document.getElementById("header")
+ .classList.toggle("scrolled",window.scrollY>80);
+});
+
+function zoomImage(e,src){
+  e.stopPropagation();
+  document.getElementById("zoomImage").src=src;
+  document.getElementById("imageOverlay").classList.add("active");
+}
+
+function closeImage(){
+  document.getElementById("imageOverlay").classList.remove("active");
+}
+
+</script>
+<!-- IMAGE ZOOM OVERLAY -->
+<div class="image-overlay" id="imageOverlay" onclick="closeImage()">
+  <span>&times;</span>
+  <img id="zoomImage">
+</div>
+
+</body>
+</html>
